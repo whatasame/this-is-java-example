@@ -3,19 +3,23 @@ package ch19.sec06;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class ParseJsonExample {
 
     public static void main(String[] args) throws IOException {
 
-        // json 읽기
-        BufferedReader bufferedReader = new BufferedReader(
-//                new FileReader("./out/member.json", Charset.forName("UTF-8"))
-                new FileReader("./out/member.json")
-        );
+        // json 읽기 - JDK 11+
+//        BufferedReader bufferedReader = new BufferedReader(
+//                new FileReader("./out/member.json", Charset.forName("UTF-8")) // JDK 11+
+//        );
+
+        // json 읽기 - JDK 8+ (https://blog.naver.com/software705/220587262406)
+        FileInputStream fileInputStream = new FileInputStream("./out/member.json");
+        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+      
+        // json을 String으로 변환
         String json = bufferedReader.readLine();
         bufferedReader.close();
 

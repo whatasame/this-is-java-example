@@ -3,9 +3,7 @@ package ch19.sec06;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 
 public class CreateJsonExample {
 
@@ -37,12 +35,19 @@ public class CreateJsonExample {
         String json = root.toString();
         System.out.println(json);
 
-        // 파일로 저장
-//        Writer writer = new FileWriter("./out/member.json", Charset.forName("UTF-8")); // JDK 8에선 없는 생성자
-        Writer writer = new FileWriter("./out/member.json");
-        writer.write(json);
-        writer.flush();
-        writer.close();
+        // 파일로 저장 - JDK 11+
+//        Writer writer = new FileWriter("./out/member.json", Charset.forName("UTF-8")); // JDK 11+
+//        writer.write(json);
+//        writer.flush();
+//        writer.close();
+
+        // 파일로 저장 - JDK 8+ (https://blog.naver.com/software705/220587262406)
+        FileOutputStream fileOutputStream = new FileOutputStream("./out/member.json");
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, "UTF-8");
+        BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
+        bufferedWriter.write(json);
+        bufferedWriter.flush();
+        bufferedWriter.close();
 
     }
 
